@@ -40,6 +40,7 @@ class StreamViewController: UIViewController {
     //View create
     var remoteView: UIView?
     var previewView: UIView?
+    var videoView: UIView? // display preview if streamer and remoteview (streamer camera) if viewer
     
     let screenRatio: CGFloat = 2/3
     let screenratioLeft: CGFloat = 1/3
@@ -52,7 +53,7 @@ class StreamViewController: UIViewController {
     var localVideoTrack: TVILocalVideoTrack?
     var localAudioTrack: TVILocalAudioTrack?
     var participant: TVIParticipant?
-
+    
 
     @IBAction func endButton(_ sender: AnyObject) {
         //self.stopStreamService()
@@ -60,16 +61,20 @@ class StreamViewController: UIViewController {
     }
     
     func initialView() {
-        remoteView = UIView(frame: CGRect(x: 0, y: 0, width: self.view.bounds.width, height: self.view.bounds.height*(screenRatio)))
-        previewView = UIView(frame: CGRect(x: self.view.bounds.width/2, y: self.view.bounds.height*(screenRatio), width: self.view.bounds.width/2, height: self.view.bounds.height*(screenratioLeft)))
-        self.view.addSubview(remoteView!)
-        self.view.addSubview(previewView!)
+        videoView = UIView(frame: CGRect(x: 0, y: 0, width: self.view.bounds.width, height: self.view.bounds.height*(screenRatio)))
+        //remoteView = UIView(frame: CGRect(x: 0, y: 0, width: self.view.bounds.width, height: self.view.bounds.height*(screenRatio)))
+        //previewView = UIView(frame: CGRect(x: self.view.bounds.width/2, y: self.view.bounds.height*(screenRatio), width: self.view.bounds.width/2, height: self.view.bounds.height*(screenratioLeft)))
+        
+        //self.view.addSubview(remoteView!)
+        //self.view.addSubview(previewView!)
+        self.view.addSubview(videoView!)
         
         if PlatformUtils.isSimulator {
-            self.previewView?.removeFromSuperview()
+            //self.preView?.removeFromSuperview()
+            self.videoView?.removeFromSuperview()
         } else {
             // Preview our local camera track in the local video preview view.
-            self.startPreview()
+            if (role)  { self.startPreview()} // preview only for Streamer
         }
         
         let tap = UITapGestureRecognizer(target: self, action: #selector(self.dismissKeyboard))
@@ -98,7 +103,8 @@ class StreamViewController: UIViewController {
         }
         else {
             // Attach view to video track for local preview
-            localVideoTrack!.attach(self.previewView!)
+            //localVideoTrack!.attach(self.previewView!)
+            localVideoTrack!.attach(self.videoView!)
             
             logMessage(messageText: "Video track added to localMedia")
        
