@@ -1,3 +1,4 @@
+
 //
 //  StreamViewController.swift
 //  pLive
@@ -5,7 +6,6 @@
 //  Created by Duy Truong on 10/5/16.
 //  Copyright © 2016 Self. All rights reserved.
 //
-
 import Firebase
 import TwilioVideo
 
@@ -16,22 +16,21 @@ class StreamViewController: UIViewController {
     var user = FIRAuth.auth()?.currentUser
     
     var role = Bool() //false as Viewer , true as streamer
-
     // access token for Duy
-    
-    var accessToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiIsImN0eSI6InR3aWxpby1mcGE7dj0xIn0.eyJqdGkiOiJTSzliYjhiMDc4NGU5ZGY0YmExNzdmZThiNGFiMWY4NzZjLTE0ODQ1NTExNjIiLCJpc3MiOiJTSzliYjhiMDc4NGU5ZGY0YmExNzdmZThiNGFiMWY4NzZjIiwic3ViIjoiQUM4OWM0ZjUyZDBiNGYxMTFjZGY3ZjcxYWE0OGFhZmUxMyIsImV4cCI6MTQ4NDU1NDc2MiwiZ3JhbnRzIjp7ImlkZW50aXR5IjoiRHV5VGVzdCIsInJ0YyI6eyJjb25maWd1cmF0aW9uX3Byb2ZpbGVfc2lkIjoiVlMxMDkzODE1YWQ4ODc0MWUzMzA4YTM1MTAyMmU5MDU0NCJ9fX0.LthuKzHGOzpTZZvxr7h_W5Aspc_jyBs59Z9GXnWwFtQ"
- 
+    /*
+    var accessToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiIsImN0eSI6InR3aWxpby1mcGE7dj0xIn0.eyJqdGkiOiJTSzliYjhiMDc4NGU5ZGY0YmExNzdmZThiNGFiMWY4NzZjLTE0ODQ1NjA5NTMiLCJpc3MiOiJTSzliYjhiMDc4NGU5ZGY0YmExNzdmZThiNGFiMWY4NzZjIiwic3ViIjoiQUM4OWM0ZjUyZDBiNGYxMTFjZGY3ZjcxYWE0OGFhZmUxMyIsImV4cCI6MTQ4NDU2NDU1MywiZ3JhbnRzIjp7ImlkZW50aXR5IjoiRHV5IiwicnRjIjp7ImNvbmZpZ3VyYXRpb25fcHJvZmlsZV9zaWQiOiJWUzEwOTM4MTVhZDg4NzQxZTMzMDhhMzUxMDIyZTkwNTQ0In19fQ.Aoosauup017hbv1AuW61dCMCvTwsXM00_r9EKP-fog0"
+    */
     // access Token for Khanh
-    /*
-    var accessToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiIsImN0eSI6InR3aWxpby1mcGE7dj0xIn0.eyJqdGkiOiJTSzliYjhiMDc4NGU5ZGY0YmExNzdmZThiNGFiMWY4NzZjLTE0ODQ1NTE3NDQiLCJpc3MiOiJTSzliYjhiMDc4NGU5ZGY0YmExNzdmZThiNGFiMWY4NzZjIiwic3ViIjoiQUM4OWM0ZjUyZDBiNGYxMTFjZGY3ZjcxYWE0OGFhZmUxMyIsImV4cCI6MTQ4NDU1NTM0NCwiZ3JhbnRzIjp7ImlkZW50aXR5IjoiS2hhbmhUZXN0IiwicnRjIjp7ImNvbmZpZ3VyYXRpb25fcHJvZmlsZV9zaWQiOiJWUzEwOTM4MTVhZDg4NzQxZTMzMDhhMzUxMDIyZTkwNTQ0In19fQ.AYGTHC9XRr9sr2BsVUaVvz6DWK97-wPR2cRBU0jVazA"
-    */
+    
+     var accessToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiIsImN0eSI6InR3aWxpby1mcGE7dj0xIn0.eyJqdGkiOiJTSzliYjhiMDc4NGU5ZGY0YmExNzdmZThiNGFiMWY4NzZjLTE0ODQ1NjA5ODIiLCJpc3MiOiJTSzliYjhiMDc4NGU5ZGY0YmExNzdmZThiNGFiMWY4NzZjIiwic3ViIjoiQUM4OWM0ZjUyZDBiNGYxMTFjZGY3ZjcxYWE0OGFhZmUxMyIsImV4cCI6MTQ4NDU2NDU4MiwiZ3JhbnRzIjp7ImlkZW50aXR5Ijoia2hhbmgiLCJydGMiOnsiY29uZmlndXJhdGlvbl9wcm9maWxlX3NpZCI6IlZTMTA5MzgxNWFkODg3NDFlMzMwOGEzNTEwMjJlOTA1NDQifX19.bP6XzIlLcVrQ59fFXQYz6iilX0SBk3-1fQaBMiwkyXo"
+    
     
     /*
-        There are 2 ways client get access token:
-        - generate manually from Twilio console (based on account profile for each client) --> this is for testing
-        - client request owner service server (not Twilio) to get token. Server will call rest API to Twilio to generate token and send back to client
+     There are 2 ways client get access token:
+     - generate manually from Twilio console (based on account profile for each client) --> this is for testing
+     - client request owner service server (not Twilio) to get token. Server will call rest API to Twilio to generate token and send back to client
      
-    */
+     */
     
     // Configure remote URL to fetch token from
     var tokenUrl = "http://localhost:8000/token.php" //default local host to get access token
@@ -40,7 +39,6 @@ class StreamViewController: UIViewController {
     //View create
     var remoteView: UIView?
     var previewView: UIView?
-    var videoView: UIView? // display preview if streamer and remoteview (streamer camera) if viewer
     
     let screenRatio: CGFloat = 2/3
     let screenratioLeft: CGFloat = 1/3
@@ -54,27 +52,24 @@ class StreamViewController: UIViewController {
     var localAudioTrack: TVILocalAudioTrack?
     var participant: TVIParticipant?
     
-
+    
     @IBAction func endButton(_ sender: AnyObject) {
         //self.stopStreamService()
         
     }
     
     func initialView() {
-        videoView = UIView(frame: CGRect(x: 0, y: 0, width: self.view.bounds.width, height: self.view.bounds.height*(screenRatio)))
-        //remoteView = UIView(frame: CGRect(x: 0, y: 0, width: self.view.bounds.width, height: self.view.bounds.height*(screenRatio)))
-        //previewView = UIView(frame: CGRect(x: self.view.bounds.width/2, y: self.view.bounds.height*(screenRatio), width: self.view.bounds.width/2, height: self.view.bounds.height*(screenratioLeft)))
+        remoteView = UIView(frame: CGRect(x: 0, y: 0, width: self.view.bounds.width, height: self.view.bounds.height*(screenRatio)))
+        previewView = UIView(frame: CGRect(x: 0, y: 0, width: self.view.bounds.width, height: self.view.bounds.height*(screenRatio)))
         
-        //self.view.addSubview(remoteView!)
-        //self.view.addSubview(previewView!)
-        self.view.addSubview(videoView!)
+        if (!role) { self.view.addSubview(remoteView!) }
+        else { self.view.addSubview(previewView!) }
         
         if PlatformUtils.isSimulator {
-            //self.preView?.removeFromSuperview()
-            self.videoView?.removeFromSuperview()
+            self.previewView?.removeFromSuperview()
         } else {
             // Preview our local camera track in the local video preview view.
-            if (role)  { self.startPreview()} // preview only for Streamer
+            self.startPreview()
         }
         
         let tap = UITapGestureRecognizer(target: self, action: #selector(self.dismissKeyboard))
@@ -83,10 +78,10 @@ class StreamViewController: UIViewController {
     }
     func dismissKeyboard() {
         /*
-        if (self.roomTextField.isFirstResponder) {
-            self.roomTextField.resignFirstResponder()
-        }
-        */
+         if (self.roomTextField.isFirstResponder) {
+         self.roomTextField.resignFirstResponder()
+         }
+         */
     }
     
     
@@ -99,21 +94,20 @@ class StreamViewController: UIViewController {
         localVideoTrack = localMedia?.addVideoTrack(true, capturer: camera!)
         if (localVideoTrack == nil) {
             logMessage(messageText: "Failed to add video track")
-           
+            
         }
         else {
             // Attach view to video track for local preview
-            //localVideoTrack!.attach(self.previewView!)
-            localVideoTrack!.attach(self.videoView!)
+            localVideoTrack!.attach(self.previewView!)
             
             logMessage(messageText: "Video track added to localMedia")
-       
+            
             
             // We will flip camera on tap.
             let tap = UITapGestureRecognizer(target: self, action: #selector(self.flipCamera))
             self.previewView?.addGestureRecognizer(tap)
         }
-
+        
     }
     
     func flipCamera() {
@@ -149,17 +143,17 @@ class StreamViewController: UIViewController {
         
         self.initializeRoom()
         self.initialView()
-
+        
     }
     func showRoomUI(inRoom: Bool) {
         /*
-        self.connectButton.isHidden = inRoom
-        self.roomTextField.isHidden = inRoom
-        self.roomLine.isHidden = inRoom
-        self.roomLabel.isHidden = inRoom
-        self.micButton.isHidden = !inRoom
-        self.disconnectButton.isHidden = !inRoom
-        */
+         self.connectButton.isHidden = inRoom
+         self.roomTextField.isHidden = inRoom
+         self.roomLine.isHidden = inRoom
+         self.roomLabel.isHidden = inRoom
+         self.micButton.isHidden = !inRoom
+         self.disconnectButton.isHidden = !inRoom
+         */
         UIApplication.shared.isIdleTimerDisabled = inRoom
     }
     
@@ -170,7 +164,7 @@ class StreamViewController: UIViewController {
             self.conferenceID = partnerID[partnerID.startIndex..<partnerID.index(partnerID.startIndex, offsetBy: 6)] // take first 6 chars of StreamerID
         }
     }
-
+    
     
     func connectService() {
         // Configure access token either from server or manually.
@@ -179,11 +173,11 @@ class StreamViewController: UIViewController {
             do {
                 accessToken = try TokenUtils.fetchToken(url: tokenUrl)
             } catch {
-               
+                
                 let message = "Failed to fetch access token"
                 logMessage(messageText: message)
                 
-             
+                
                 return
             }
         }
@@ -194,7 +188,7 @@ class StreamViewController: UIViewController {
             if (client == nil) {
                 
                 logMessage(messageText: "Failed to create video client")
-              
+                
                 return
             }
         }
@@ -219,7 +213,7 @@ class StreamViewController: UIViewController {
         logMessage(messageText: "Attempting to connect to room \(self.conferenceID)")
         //print("attempt to connect the room: \(self.conferenceID)")
         self.showRoomUI(inRoom: true)
-
+        
     }
     
     func logMessage(messageText: String) {
@@ -235,8 +229,8 @@ class StreamViewController: UIViewController {
         self.participant = nil
     }
     
-  
-
+    
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -354,108 +348,100 @@ extension StreamViewController : TVIParticipantDelegate {
  var role = Bool() //false as Viewer , true as streamer
  var sdk = ooVooClient.sharedInstance()
  
-
-
-
-    var user = FIRAuth.auth()?.currentUser
-    var panelVideo = ooVooVideoPanel()
-    
-    func ooVooAuthorizeService() {
-   
-        self.sdk?.authorizeClient(ooVooToken, completion: { SdkResult in
-           
-            let err: sdk_error = (SdkResult?.result)!
-            if (err == sdk_error.OK) {
-                print("authorization ok")
-                self.ooVooLoginService()
-           
-            } else {print("fail authorization")}
-            
-        })
+ var user = FIRAuth.auth()?.currentUser
+ var panelVideo = ooVooVideoPanel()
  
-
-
-    
-    func ooVooLoginService() {
-        self.userIDShort = self.user!.uid[self.user!.uid.startIndex..<self.user!.uid.index(self.user!.uid.startIndex, offsetBy: 6)] // take first 6 chars of self ID
-        self.sdk?.account.login(self.userIDShort, completion: { SdkResult in
-            let result = SdkResult
-            if result?.result != sdk_error.OK { print("log in fail") }
-            else {
-                /*
-                print("login ok")
-                print("result debug desc:\(result?.debugDescription)")
-                print("result des:\(result?.description)")
-                print("Message isConnect:\(self.sdk?.messaging.isConnected())")
-                print("Messsage connect:\(self.sdk?.messaging.connect())")
-                */
-                self.joinConference()
-            }
-        })
-
-    }
-    
+ func ooVooAuthorizeService() {
  
-    
-    func createPanel() {
-        self.panelVideo = ooVooVideoPanel.init(frame:CGRect(x: 0, y: 0, width: self.view.bounds.width, height: self.view.bounds.height*(2/3)))
-        self.panelVideo.videoOrientationLocked = true
-        self.view.addSubview(self.panelVideo)
-    }
-    
-    func joinConference() {
-        self.createPanel()
-        
-        if (!self.role) { //as viewer
-            
-            self.conferenceID = partnerID[partnerID.startIndex..<partnerID.index(partnerID.startIndex, offsetBy: 6)] // take first 6 chars of StreamerID
-            self.sdk?.avChat.join(self.conferenceID,user_data:self.userIDShort) //
-            self.getStreamVideo()
-        
-        } else { // as streamer
-            self.conferenceID = self.userIDShort
-            self.sdk?.avChat.join(self.conferenceID,user_data:self.userIDShort) // join as Streamer
-            self.startStreamVideo()
-        }
+ self.sdk?.authorizeClient(ooVooToken, completion: { SdkResult in
  
-    
-    }
-    
-    func startStreamVideo() {
-    
-        self.sdk?.avChat.videoController.bindVideoRender(nil, render: self.panelVideo)
-        self.sdk?.avChat.videoController.openCamera()
-        self.sdk?.avChat.videoController.startTransmitVideo()
-        self.sdk?.avChat.audioController.setPlaybackMute(false)
-        self.sdk?.avChat.audioController.setRecordMuted(false)
-        
-    }
-    
-    
-    func stopStreamService() {
-        if (!self.role) { //as Viewer
-            self.sdk?.avChat.videoController.unRegisterRemoteVideo(self.conferenceID)
-        } else { // as Streamer
-            self.sdk?.avChat.videoController.stopTransmitVideo()
-            self.sdk?.avChat.audioController.setRecordMuted(true)
-            self.sdk?.avChat.audioController.setPlaybackMute(true)
-            self.sdk?.avChat.videoController.unbindVideoRender(nil, render: self.panelVideo)
-            self.sdk?.avChat.videoController.closeCamera()
-        }
-    }
+ let err: sdk_error = (SdkResult?.result)!
+ if (err == sdk_error.OK) {
+ print("authorization ok")
+ self.ooVooLoginService()
  
-    
-    func getStreamVideo() {
-        self.sdk?.avChat.videoController.bindVideoRender(self.conferenceID, render: self.panelVideo)
-        self.sdk?.avChat.videoController.registerRemoteVideo(self.conferenceID)
-
-    }
-    override func viewDidAppear(_ animated: Bool) {
-        
-        self.ooVooAuthorizeService()
-        
-    }
-
-}
-*/
+ } else {print("fail authorization")}
+ 
+ })
+ 
+ 
+ func ooVooLoginService() {
+ self.userIDShort = self.user!.uid[self.user!.uid.startIndex..<self.user!.uid.index(self.user!.uid.startIndex, offsetBy: 6)] // take first 6 chars of self ID
+ self.sdk?.account.login(self.userIDShort, completion: { SdkResult in
+ let result = SdkResult
+ if result?.result != sdk_error.OK { print("log in fail") }
+ else {
+ /*
+ print("login ok")
+ print("result debug desc:\(result?.debugDescription)")
+ print("result des:\(result?.description)")
+ print("Message isConnect:\(self.sdk?.messaging.isConnected())")
+ print("Messsage connect:\(self.sdk?.messaging.connect())")
+ */
+ self.joinConference()
+ }
+ })
+ }
+ 
+ 
+ 
+ func createPanel() {
+ self.panelVideo = ooVooVideoPanel.init(frame:CGRect(x: 0, y: 0, width: self.view.bounds.width, height: self.view.bounds.height*(2/3)))
+ self.panelVideo.videoOrientationLocked = true
+ self.view.addSubview(self.panelVideo)
+ }
+ 
+ func joinConference() {
+ self.createPanel()
+ 
+ if (!self.role) { //as viewer
+ 
+ self.conferenceID = partnerID[partnerID.startIndex..<partnerID.index(partnerID.startIndex, offsetBy: 6)] // take first 6 chars of StreamerID
+ self.sdk?.avChat.join(self.conferenceID,user_data:self.userIDShort) //
+ self.getStreamVideo()
+ 
+ } else { // as streamer
+ self.conferenceID = self.userIDShort
+ self.sdk?.avChat.join(self.conferenceID,user_data:self.userIDShort) // join as Streamer
+ self.startStreamVideo()
+ }
+ 
+ 
+ }
+ 
+ func startStreamVideo() {
+ 
+ self.sdk?.avChat.videoController.bindVideoRender(nil, render: self.panelVideo)
+ self.sdk?.avChat.videoController.openCamera()
+ self.sdk?.avChat.videoController.startTransmitVideo()
+ self.sdk?.avChat.audioController.setPlaybackMute(false)
+ self.sdk?.avChat.audioController.setRecordMuted(false)
+ 
+ }
+ 
+ 
+ func stopStreamService() {
+ if (!self.role) { //as Viewer
+ self.sdk?.avChat.videoController.unRegisterRemoteVideo(self.conferenceID)
+ } else { // as Streamer
+ self.sdk?.avChat.videoController.stopTransmitVideo()
+ self.sdk?.avChat.audioController.setRecordMuted(true)
+ self.sdk?.avChat.audioController.setPlaybackMute(true)
+ self.sdk?.avChat.videoController.unbindVideoRender(nil, render: self.panelVideo)
+ self.sdk?.avChat.videoController.closeCamera()
+ }
+ }
+ 
+ 
+ func getStreamVideo() {
+ self.sdk?.avChat.videoController.bindVideoRender(self.conferenceID, render: self.panelVideo)
+ self.sdk?.avChat.videoController.registerRemoteVideo(self.conferenceID)
+ }
+ override func viewDidAppear(_ animated: Bool) {
+ 
+ self.ooVooAuthorizeService()
+ 
+ }
+ }
+ */
 
